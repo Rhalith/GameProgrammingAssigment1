@@ -1,21 +1,55 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class FollowPlayerX : MonoBehaviour
 {
-    public GameObject plane;
-    private Vector3 offset;
+    [SerializeField] private GameObject plane; // Reference to the plane
+    [SerializeField] private Vector3 sideViewOffset; // Offset for side view
+    [SerializeField] private Vector3 backViewOffset; // Offset for back view
+    private bool _isBackView = false; // Track if the camera is in back view
 
-    // Start is called before the first frame update
-    void Start()
+    public float rotationSpeed = 5.0f; // Speed of camera rotation
+
+    private void Update()
     {
-
+        // Check if the "B" key is pressed to toggle between side and back view
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            _isBackView = !_isBackView;
+        }
     }
 
     // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        transform.position = plane.transform.position + offset;
+
+        // Set the current offset based on the view mode (side or back view)
+        Vector3 currentOffset = _isBackView ? backViewOffset : sideViewOffset;
+
+        // Make the camera follow the plane's position
+        transform.position = plane.transform.position + plane.transform.rotation * currentOffset;
+
+        // If the camera is in back view, ensure it rotates to always face the back of the plane
+        if (_isBackView)
+        {
+            RotateWithPlane();
+        }
+        else
+        {
+            // For side view, ensure the camera stays in a static side orientation
+            transform.LookAt(plane.transform);
+        }
+    }
+
+    // Rotate the camera to always maintain a rear view of the plane, including tilt (pitch)
+    private void RotateWithPlane()
+    {
+        // Calculate the target rotation based on the plane's full orientation
+        Quaternion targetRotation = plane.transform.rotation;
+
+        // Smoothly rotate the camera towards the target rotation to match the plane's rear view
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
     }
 }
