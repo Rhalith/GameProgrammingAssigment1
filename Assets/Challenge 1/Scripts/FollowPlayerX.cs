@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class FollowPlayerX : MonoBehaviour
 {
-    [SerializeField] private GameObject plane; // Reference to the plane
-    [SerializeField] private Vector3 sideViewOffset; // Offset for side view
-    [SerializeField] private Vector3 backViewOffset; // Offset for back view
-    private bool _isBackView = false; // Track if the camera is in back view
+    [SerializeField] private GameObject plane;
+    [SerializeField] private Vector3 sideViewOffset;
+    [SerializeField] private Vector3 backViewOffset;
+    private bool _isBackView;
 
-    public float rotationSpeed = 5.0f; // Speed of camera rotation
+    public float rotationSpeed = 5.0f;
 
     private void Update()
     {
@@ -21,7 +21,6 @@ public class FollowPlayerX : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     private void FixedUpdate()
     {
 
@@ -43,7 +42,6 @@ public class FollowPlayerX : MonoBehaviour
         }
     }
 
-    // Rotate the camera to always maintain a rear view of the plane, including tilt (pitch)
     private void RotateWithPlane()
     {
         // Calculate the target rotation based on the plane's full orientation

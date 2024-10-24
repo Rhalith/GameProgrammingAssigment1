@@ -14,6 +14,8 @@ public class PlayerControllerX : MonoBehaviour
     private bool isFPressed;
 
     // Update is called once per frame
+    
+    // I Get the user's input in Update() and apply the movement and rotation in FixedUpdate() to ensure smooth and consistent movement.
     private void Update()
     {
         // Get the user's input for movement and rotation
