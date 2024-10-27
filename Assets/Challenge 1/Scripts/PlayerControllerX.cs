@@ -1,62 +1,98 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerControllerX : MonoBehaviour
 {
-    public float speed = 10f;
-    public float rotationSpeed = 100f;
-    public float verticalInput;
-    public float horizontalInput;
+    [Header("Movement Variables")]
+    [Tooltip("The maximum speed the player can move forward or backward \n Recommended value: 20")]
+    [SerializeField] private float maxSpeed = 20f;
+    [Tooltip("The rate at which the player accelerates or decelerates \n Recommended value: 5")]
+    [SerializeField] private float acceleration = 5f;
+    [Tooltip("The speed at which the player rotates when tilting \n Recommended value: 2")]
+    [SerializeField] private float rotationSpeed = 2f;
     
-    private bool isEPressed;
-    private bool isFPressed;
+    [Header("References")]
+    [SerializeField] private Rigidbody rigidBody;
+    
+    
+    private float _currentSpeed = 0f;
+    private float _horizontalInput;
+    private bool _isMovingForward = true;
+    
+    private bool _isEPressed;
+    private bool _isFPressed;
 
-    // Update is called once per frame
-    
-    // I Get the user's input in Update() and apply the movement and rotation in FixedUpdate() to ensure smooth and consistent movement.
+    private void Start()
+    {
+        // Check if the Rigidbody component is assigned in the Inspector
+        if(rigidBody == null)
+            rigidBody = GetComponent<Rigidbody>();
+    }
+
     private void Update()
     {
-        // Get the user's input for movement and rotation
-        verticalInput = Input.GetAxis("Vertical"); // For forward/backward movement
-        horizontalInput = Input.GetAxis("Horizontal"); // For left/right movement
+        // Get the user's horizontal input for left/right movement
+        _horizontalInput = Input.GetAxis("Horizontal");
+
+        // Get the user's vertical input for changing direction
+        float verticalInput = Input.GetAxis("Vertical");
+
+        // Update the movement direction based on vertical input
+        if (verticalInput > 0)
+        {
+            _isMovingForward = true; // Move forward if pressing up
+        }
+        else if (verticalInput < 0)
+        {
+            _isMovingForward = false; // Move backward if pressing down
+        }
         
-        if(Input.GetKeyDown(KeyCode.E))
+        // Check if the tilt keys (E and F) are pressed
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            isEPressed = true;
+            _isEPressed = true;
         }
-        else if(Input.GetKeyUp(KeyCode.E))
+        else if (Input.GetKeyUp(KeyCode.E))
         {
-            isEPressed = false;
+            _isEPressed = false;
         }
         
-        if(Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F))
         {
-            isFPressed = true;
+            _isFPressed = true;
         }
-        else if(Input.GetKeyUp(KeyCode.F))
+        else if (Input.GetKeyUp(KeyCode.F))
         {
-            isFPressed = false;
+            _isFPressed = false;
         }
     }
 
     private void FixedUpdate()
     {
-        // Move the plane forward/backward
-        transform.Translate(Vector3.forward * (speed * Time.deltaTime * verticalInput));
+        // Determine the target speed based on the movement direction
+        float targetSpeed = _isMovingForward ? maxSpeed : -maxSpeed;
 
-        // Move the plane right/left
-        transform.Translate(Vector3.right * (speed * Time.deltaTime * horizontalInput));
+        // Smoothly accelerate or decelerate to the target speed
+        _currentSpeed = Mathf.MoveTowards(_currentSpeed, targetSpeed, acceleration * Time.deltaTime);
 
-        // Tilt the plane only when pressing E (tilt up) or F (tilt down)
-        if (isEPressed)
+        // Set the forward/backward velocity
+        rigidBody.velocity = transform.forward * _currentSpeed + transform.right * (_horizontalInput * maxSpeed);
+
+        // Apply tilt rotation using angular velocity only when pressing E or F
+        if (_isEPressed)
         {
-            transform.Rotate(Vector3.right * (-rotationSpeed * Time.deltaTime)); // Tilt up (E key)
+            rigidBody.angularVelocity = Vector3.right * -rotationSpeed; // Tilt up (E key)
         }
-        else if (isFPressed)
+        else if (_isFPressed)
         {
-            transform.Rotate(Vector3.right * (rotationSpeed * Time.deltaTime)); // Tilt down (F key)
+            rigidBody.angularVelocity = Vector3.right * rotationSpeed; // Tilt down (F key)
+        }
+        else
+        {
+            // Reset angular velocity when no tilt input is pressed
+            rigidBody.angularVelocity = Vector3.zero;
         }
     }
 }
