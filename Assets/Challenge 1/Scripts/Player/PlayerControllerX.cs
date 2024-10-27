@@ -8,10 +8,10 @@ namespace Scripts.Player
         [Header("Movement Variables")]
         [Tooltip("The maximum speed the player can move forward or backward \n Recommended value: 20")]
         [SerializeField] private float maxSpeed = 20f;
-        [Tooltip("The rate at which the player accelerates or decelerates \n Recommended value: 5")]
-        [SerializeField] private float acceleration = 5f;
-        [Tooltip("The speed at which the player rotates when tilting \n Recommended value: 2")]
-        [SerializeField] private float rotationSpeed = 2f;
+        [Tooltip("The rate at which the player accelerates or decelerates \n Recommended value: 15")]
+        [SerializeField] private float acceleration = 15f;
+        [Tooltip("The speed at which the player rotates when tilting \n Recommended value: 1.5")]
+        [SerializeField] private float rotationSpeed = 1.5f;
     
         [Header("References")]
         [SerializeField] private Rigidbody rigidBody;
@@ -25,6 +25,12 @@ namespace Scripts.Player
         private bool _isFPressed;
         
         private bool _canMove = true;
+
+        public bool CanMove
+        {
+            get => _canMove;
+            set => _canMove = value;
+        }
 
         private void Start()
         {
@@ -74,7 +80,14 @@ namespace Scripts.Player
 
         private void FixedUpdate()
         {
-            if(!_canMove) return;
+            if (!_canMove)
+            {
+                _currentSpeed = 0f;
+                rigidBody.velocity = Vector3.zero;
+                rigidBody.angularVelocity = Vector3.zero;
+                return;
+            }
+            
             // Determine the target speed based on the movement direction
             float targetSpeed = _isMovingForward ? maxSpeed : -maxSpeed;
 
@@ -98,14 +111,6 @@ namespace Scripts.Player
                 // Reset angular velocity when no tilt input is pressed
                 rigidBody.angularVelocity = Vector3.zero;
             }
-        }
-        
-        public void StopMovement()
-        {
-            _canMove = false;
-            _currentSpeed = 0f;
-            rigidBody.velocity = Vector3.zero;
-            rigidBody.angularVelocity = Vector3.zero;
         }
     }
 }
