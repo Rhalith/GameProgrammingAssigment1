@@ -15,6 +15,8 @@ namespace Scripts.Obstacle
 
         private void OnCollisionEnter(Collision collision)
         {
+            // Ensure that the bomb does not explode when it collides with the player
+            // I did this because if player launch bomb while tilting the plane, the bomb will explode immediately
             if(collision.gameObject.CompareTag("Player")) 
                 return;
             // I assigned GameController tag to enemy planes

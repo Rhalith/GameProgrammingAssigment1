@@ -28,25 +28,21 @@ namespace Scripts.Player
 
             // Make the camera follow the plane's position
             transform.position = plane.transform.position + plane.transform.rotation * currentOffset;
-
-            // If the camera is in back view, ensure it rotates to always face the back of the plane
+            
             if (_isBackView)
             {
                 RotateWithPlane();
             }
             else
             {
-                // For side view, ensure the camera stays in a static side orientation
                 transform.LookAt(plane.transform);
             }
         }
 
         private void RotateWithPlane()
         {
-            // Calculate the target rotation based on the plane's full orientation
             Quaternion targetRotation = plane.transform.rotation;
-
-            // Smoothly rotate the camera towards the target rotation to match the plane's rear view
+            
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
         }
     }

@@ -35,15 +35,14 @@ namespace Scripts.Plane
 
         private void Explode()
         {
-            // Play explosion effect and destroy the enemy plane
             if (explosionEffect != null)
             {
                 ParticleSystem effect = Instantiate(explosionEffect, transform.position, Quaternion.identity);
                 effect.Play();
-                Destroy(effect.gameObject, effect.main.duration); // Destroy the particle system after playing
+                Destroy(effect.gameObject, effect.main.duration);
             }
 
-            Destroy(gameObject); // Destroy the enemy plane
+            Destroy(gameObject);
         }
     }
 }

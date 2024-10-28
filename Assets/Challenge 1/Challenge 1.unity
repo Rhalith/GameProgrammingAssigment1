@@ -2445,7 +2445,7 @@ MonoBehaviour:
   spawnRangeX: {x: -50, y: 50}
   spawnRangeY: {x: 10, y: 30}
   minSpeed: 5
-  maxSpeed: 10
+  maxSpeed: 20
 --- !u!1 &1667803326
 GameObject:
   m_ObjectHideFlags: 0
@@ -2728,7 +2728,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1974947895
 Transform:
   m_ObjectHideFlags: 0
