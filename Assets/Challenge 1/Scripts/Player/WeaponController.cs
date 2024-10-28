@@ -6,7 +6,7 @@ namespace Scripts.Player
     {
         [SerializeField] private GameObject bombPrefab; // Reference to the bomb prefab
         [SerializeField] private Transform bombSpawnPoint; // Point where bombs will be spawned
-        [SerializeField] private float bombLaunchForce = 10f; // Force to launch the bomb downward
+        [SerializeField] private float bombLaunchForce = 500f; // Launch force for the bomb
 
         private void Update()
         {
@@ -19,14 +19,16 @@ namespace Scripts.Player
 
         private void LaunchBomb()
         {
-            // Instantiate a bomb at the specified spawn point with the plane's rotation
-            GameObject bomb = Instantiate(bombPrefab, bombSpawnPoint.position, Quaternion.identity);
+            // Instantiate a bomb at the spawn point with the plane's rotation
+            GameObject bomb = Instantiate(bombPrefab, bombSpawnPoint.position, bombSpawnPoint.rotation);
 
-            // Apply downward force to simulate dropping the bomb
+            // Apply forward and slightly downward force to launch the bomb
             Rigidbody rb = bomb.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                rb.AddForce(Vector3.down * bombLaunchForce, ForceMode.Impulse);
+                Debug.Log("test");
+                Vector3 launchDirection = bombSpawnPoint.forward + Vector3.down * 0.2f; // Forward with a slight downward angle
+                rb.AddForce(launchDirection.normalized * bombLaunchForce, ForceMode.Impulse);
             }
         }
     }
