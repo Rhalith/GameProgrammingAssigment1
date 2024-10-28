@@ -1,0 +1,17 @@
+
+External References and Resources
+
+1. Unity Documentation
+   • Unity Scripting API - Official Unity documentation was referenced for understanding specific methods, properties, and best practices, especially for Rigidbody, Instantiate, and Transform manipulation.
+   Link: https://docs.unity3d.com/ScriptReference/
+
+2. Unity Learn
+   • Unity Learn Platform - Various tutorials and articles were referenced for handling basic spawning, collisions, and particle system setup.
+   Link: https://learn.unity.com/
+
+3. 3D Asset Pack
+   • POLYGON Military Pack - 3D assets from this pack were used to provide models for various in-game elements, including vehicles and military assets.
+   Link: https://syntystore.com/products/polygon-military-pack?srsltid=AfmBOoq4gRnM_aHT7HF_5cfHFZoKVXxyWbxT9CSm3WD-LwaKErDHpDTZ
+
+4. GitHub Repository
+   • GameProgrammingAssignment1 - Project repository link: https://github.com/Rhalith/GameProgrammingAssigment1
