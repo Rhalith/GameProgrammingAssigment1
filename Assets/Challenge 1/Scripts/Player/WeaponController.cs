@@ -23,7 +23,6 @@ namespace Scripts.Player
             Rigidbody rb = bomb.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                Debug.Log("test");
                 Vector3 launchDirection = bombSpawnPoint.forward + Vector3.down * 0.2f;
                 rb.AddForce(launchDirection.normalized * bombLaunchForce, ForceMode.Impulse);
             }

@@ -4,7 +4,7 @@ namespace Scripts.Obstacle
 {
     public class Bomb : MonoBehaviour
     {
-        [SerializeField] private ParticleSystem explosionEffect; // Reference to the explosion particle system
+        [SerializeField] private ParticleSystem explosionEffect;
         private void Awake()
         {
             if (explosionEffect != null)
