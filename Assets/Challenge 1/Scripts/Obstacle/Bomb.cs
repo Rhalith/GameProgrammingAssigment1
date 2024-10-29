@@ -30,8 +30,7 @@ namespace Scripts.Obstacle
                 explosionEffect.transform.parent = null;
                 explosionEffect.Play();
             }
-            Debug.Log("Bomb Exploded");
-            Debug.Log("Is Enemy: " + isEnemy);
+            
             Destroy(gameObject);
             if (explosionEffect != null)
             {

@@ -23,10 +23,8 @@ namespace Scripts.Player
         private void FixedUpdate()
         {
 
-            // Set the current offset based on the view mode (side or back view)
             Vector3 currentOffset = _isBackView ? backViewOffset : sideViewOffset;
 
-            // Make the camera follow the plane's position
             transform.position = plane.transform.position + plane.transform.rotation * currentOffset;
             
             if (_isBackView)

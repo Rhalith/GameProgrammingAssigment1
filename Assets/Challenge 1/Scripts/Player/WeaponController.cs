@@ -20,12 +20,11 @@ namespace Scripts.Player
         {
             GameObject bomb = Instantiate(bombPrefab, bombSpawnPoint.position, bombSpawnPoint.rotation);
 
-            // Apply forward and slightly downward force to launch the bomb
             Rigidbody rb = bomb.GetComponent<Rigidbody>();
             if (rb != null)
             {
                 Debug.Log("test");
-                Vector3 launchDirection = bombSpawnPoint.forward + Vector3.down * 0.2f; // Forward with a slight downward angle
+                Vector3 launchDirection = bombSpawnPoint.forward + Vector3.down * 0.2f;
                 rb.AddForce(launchDirection.normalized * bombLaunchForce, ForceMode.Impulse);
             }
         }
